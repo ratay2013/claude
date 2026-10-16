@@ -14,4 +14,4 @@
 8. **Meta Pixel** — вставте код піксела в `<head>` `index.html` на місце коментаря «Аналітика». Кліки по CTA відправляють `InitiateCheckout`.
 9. **GA4 / GTM** — вставте gtag.js або GTM-сніпет туди ж. Кліки відправляють `cta_click` з `cta_place` (`hero`, `pain`, `week`, `results`, `guarantee`, `reviews`, `faq`, `sticky`).
 
-Також замініть `og:url` у `<head>` на адресу сайту.
+`og:url` та `og:image` у `<head>` вказують на `https://yogafest.com.ua/`; якщо сторінка буде в підпапці, змініть обидва.
