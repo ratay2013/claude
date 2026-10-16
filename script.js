@@ -1,13 +1,12 @@
 /* ===== ЄДИНЕ МІСЦЕ ДЛЯ НАЛАШТУВАНЬ ===== */
 const COURSE_CONFIG = {
-  checkoutUrl: "ВСТАВИТИ_ПОСИЛАННЯ_НА_ОПЛАТУ",
+  checkoutUrl: "https://secure.wayforpay.com/button/b578bb48b0e1f",
   instagramUrl: "https://www.instagram.com/yoga_prostir_prana/",
   currentPrice: 399,
   oldPrice: 2999,
   currency: "грн",
-  accessPeriod: "6 місяців",
-  // Формат: "2026-10-31T23:59:59+03:00". Поки стоїть заглушка — таймер прихований.
-  offerEndDate: "ВСТАВИТИ_ДАТУ"
+  accessPeriod: "6 місяців"
+  // Таймер не потребує дати: щодня рахує до 23:59:59 за місцевим часом відвідувача.
 };
 const CHECKOUT_URL = COURSE_CONFIG.checkoutUrl;
 /* ======================================= */
@@ -42,27 +41,20 @@ const CHECKOUT_URL = COURSE_CONFIG.checkoutUrl;
     });
   });
 
-  // Таймер: реальна дата, без скидання при оновленні
-  var block = document.getElementById("timer-block");
-  var timer = document.getElementById("timer");
-  var ended = document.getElementById("offer-ended");
-  var end = Date.parse(C.offerEndDate);
+  // Таймер: до 23:59:59 поточної доби за місцевим часом відвідувача.
+  // Після опівночі автоматично починає відлік до кінця нової доби.
   function pad(n) { return (n < 10 ? "0" : "") + n; }
-  if (isNaN(end)) {
-    block.hidden = true;
-  } else {
-    var tick = function () {
-      var left = end - Date.now();
-      if (left <= 0) {
-        timer.hidden = true; ended.hidden = false; clearInterval(iv); return;
-      }
-      var s = Math.floor(left / 1000);
-      document.getElementById("t-h").textContent = pad(Math.floor(s / 3600));
-      document.getElementById("t-m").textContent = pad(Math.floor(s % 3600 / 60));
-      document.getElementById("t-s").textContent = pad(s % 60);
-    };
-    var iv = setInterval(tick, 1000); tick();
+  function endOfToday() { var d = new Date(); d.setHours(23, 59, 59, 0); return d.getTime(); }
+  var end = endOfToday();
+  function tick() {
+    var left = end - Date.now();
+    if (left < 0) { end = endOfToday(); left = end - Date.now(); }
+    var s = Math.floor(left / 1000);
+    document.getElementById("t-h").textContent = pad(Math.floor(s / 3600));
+    document.getElementById("t-m").textContent = pad(Math.floor(s % 3600 / 60));
+    document.getElementById("t-s").textContent = pad(s % 60);
   }
+  setInterval(tick, 1000); tick();
 
   // Sticky CTA після першого екрана
   var sticky = document.getElementById("sticky");

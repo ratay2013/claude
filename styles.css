@@ -146,7 +146,6 @@ p{margin-bottom:12px}
 .timer div+div{border-left:1px solid #b9c2cf}
 .timer b{display:block;font-size:52px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums}
 .timer span{font-size:20px}
-.offer-ended{font-size:24px;font-weight:900;color:var(--red)}
 .rev-title{margin:36px 0 18px}
 
 /* reviews */
